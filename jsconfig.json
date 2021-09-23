@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    // TODO: If I set module value, intellisense will not understand absolute path, still don't know why
+    // "module": "esnext",
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules"]
+}
