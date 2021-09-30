@@ -76,6 +76,10 @@ const Menu = styled(Dialog)`
   bottom: 0;
   right: 0;
   left: 0;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
 `;
 
 const Content = styled.div`
