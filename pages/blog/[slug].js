@@ -16,7 +16,7 @@ function Post() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Spacer axis="vertical" size="0" when={{ mdAndUp: 72 }} />
+      <Spacer axis="vertical" size="0" when={{ mdAndUp: 50 }} />
 
       <Main>
         <Container>
@@ -145,6 +145,7 @@ const ImageWrapper = styled.div`
 
   @media (min-width: 992px) {
     width: 100%;
+    margin: 0;
     height: 300px;
   }
 

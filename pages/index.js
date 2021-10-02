@@ -4,8 +4,6 @@ import styled from "styled-components";
 
 import Spacer from "components/Spacer";
 import Container from "components/Container";
-import { Columns, Column } from "components/Columns";
-import Inline from "components/Inline";
 import PageIntro from "components/PageIntro";
 import Topic from "features/homepage/components/Topic";
 import topics from "constants/topics";
@@ -21,34 +19,31 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Spacer axis="vertical" size="0" when={{ mdAndUp: "46" }} />
+      <Spacer axis="vertical" size="32" when={{ mdAndUp: 50 }} />
 
       <Main>
         <Container>
           {/* Hero section */}
           <Section>
-            <Columns verticalAlgin="center">
-              <Column>
+            <HeroWrapper>
+              <Intro>
                 <PageIntro
                   title="Hi, I am Justin"
                   description="玉山主峰山貌高峻，四面皆是陡壁危崖，南北兩側是千仞峭壁，西側絕壑深溝，東側則是碎石陡坡。玉山無論山容或山勢皆在台灣為最具規模，除了是台灣五岳之首、百岳之王外，更重要的是玉山群峰地區蘊含著珍貴的生命寶藏。這裡有亞熱帶、暖溫帶。 玉山主峰山貌高峻，四面皆是陡壁危崖，南北兩側是千仞峭壁，西側絕壑深溝，東側則是碎石陡坡。玉山無論山容或山勢皆在台灣為最具規模，除了是台灣五岳之首、百岳之王外。"
                 />
-              </Column>
-              <Column hideWhenBelow="md">
-                <Inline align="center">
-                  {/* Make it responsive */}
-                  <PictureOfMeWrapper>
-                    <Image
-                      src="https://picsum.photos/200/300"
-                      layout="fill"
-                      objectFit="cover"
-                      alt="Picture of me"
-                      priority
-                    />
-                  </PictureOfMeWrapper>
-                </Inline>
-              </Column>
-            </Columns>
+              </Intro>
+              <Cover>
+                <ImageWrapper>
+                  <Image
+                    src="https://picsum.photos/200/300"
+                    layout="fill"
+                    objectFit="cover"
+                    alt="Picture of me"
+                    priority
+                  />
+                </ImageWrapper>
+              </Cover>
+            </HeroWrapper>
           </Section>
 
           {/* Topic section */}
@@ -90,7 +85,33 @@ const Main = styled.main`
   }
 `;
 
-const PictureOfMeWrapper = styled.div`
+const HeroWrapper = styled.div`
+  display: flex;
+`;
+
+const Intro = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+`;
+
+const Cover = styled.div`
+  display: none;
+
+  @media (min-width: 768px) {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  @media (min-width: 992px) {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+`;
+
+const ImageWrapper = styled.div`
   position: relative;
 
   @media (min-width: 768px) {
@@ -142,7 +163,7 @@ const Section = styled.section`
   &:not(:last-child) {
     margin-bottom: 80px;
 
-    @media (min-width: 576px) {
+    @media (min-width: 768px) {
       margin-bottom: 120px;
     }
   }

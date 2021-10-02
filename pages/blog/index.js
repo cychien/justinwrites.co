@@ -21,46 +21,37 @@ export default function Blog() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <Spacer axis="vertical" size="32" when={{ mdAndUp: 50 }} />
+
       <Main>
         <Container>
-          <Columns>
-            <Column>
+          <HeroWrapper>
+            <Intro>
               <PageIntro
                 title="Blog"
                 description="玉山主峰山貌高峻，四面皆是陡壁危崖，南北兩側是千仞峭壁，西側絕壑深溝，東側則是碎石陡坡。玉山無論山容或山勢皆在台灣為最具規模，除了是台灣五岳之首、百岳之王外，更重要的是玉山群峰地區蘊含著珍貴的生命寶藏。這裡有亞熱帶、暖溫帶"
                 dense
               />
-            </Column>
-            <Column hideWhenBelow="md">
-              <Inline align="center">
-                <PostCard imageSrc="https://picsum.photos/200/300" />
-              </Inline>
-            </Column>
-          </Columns>
+            </Intro>
+
+            <FeaturedPost>
+              <PostCard imageSrc="https://picsum.photos/1200/1200" />
+            </FeaturedPost>
+          </HeroWrapper>
 
           <Spacer axis="vertical" size="72" when={{ smAndUp: 48 }} />
           <Divider />
           <Spacer axis="vertical" size="55" />
 
-          <Flex>
+          <PostList>
             <PostBlock />
             <PostBlock />
-          </Flex>
+          </PostList>
         </Container>
       </Main>
     </div>
   );
 }
-
-const Divider = styled.div`
-  height: 1px;
-  width: 33%;
-  background-color: var(--gray-200);
-
-  @media (min-width: 576px) {
-    width: 50%;
-  }
-`;
 
 const Main = styled.main`
   margin-bottom: 80px;
@@ -70,14 +61,44 @@ const Main = styled.main`
   }
 `;
 
-const Flex = styled.div`
+const HeroWrapper = styled.div`
+  display: flex;
+`;
+
+const Intro = styled.div`
+  flex: 1;
+`;
+
+const FeaturedPost = styled.div`
+  display: none;
+
+  @media (min-width: 768px) {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  @media (min-width: 992px) {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+`;
+
+const Divider = styled.div`
+  height: 1px;
+  max-width: min(300px, 33%);
+  background-color: var(--gray-200);
+`;
+
+const PostList = styled.div`
   display: flex;
   flex-direction: column;
 
   & > *:not(:last-child) {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
 
-    @media (min-width: 576px) {
+    @media (min-width: 768px) {
       margin-bottom: 32px;
     }
   }

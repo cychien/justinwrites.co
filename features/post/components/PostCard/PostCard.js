@@ -25,14 +25,11 @@ function PostCard({ imageSrc, title, excerpt, publishDate, tags }) {
         </Excerpt>
         <Metadata>
           <Inline verticalAlign="center">
-            <div>Oct.10</div>
+            <span>Oct.10</span>
             <Flex>
               <TagIconElem />
               <Spacer axis="horizontal" size={2} />
-              <div>
-                <Tag>人生體悟</Tag>
-                <Tag>Productivity</Tag>
-              </div>
+              <span>人生體悟</span>
             </Flex>
           </Inline>
         </Metadata>
@@ -60,14 +57,13 @@ const Wrapper = styled.article`
 
 const ImageWrapper = styled.div`
   position: relative;
+  width: 100%;
 
   @media (min-width: 768px) {
-    width: 270px;
     height: 180px;
   }
 
   @media (min-width: 992px) {
-    width: 318px;
     height: 212px;
   }
 
@@ -81,6 +77,7 @@ const Title = styled.h3``;
 const Excerpt = styled.p`
   color: var(--gray-500);
   font-size: ${14 / 16}rem;
+  line-height: 1.7;
 `;
 
 const Metadata = styled.div`
@@ -93,25 +90,6 @@ const TagIconElem = styled(TagIcon)`
   height: 16px;
   color: var(--gray-400);
   display: block;
-`;
-
-const Tag = styled.span`
-  &:not(:last-child) {
-    margin-right: 17px;
-    position: relative;
-
-    &::after {
-      position: absolute;
-      right: -11px;
-      top: 8px;
-
-      content: "";
-      height: 4px;
-      width: 4px;
-      background-color: var(--gray-300);
-      border-radius: 50%;
-    }
-  }
 `;
 
 const Flex = styled.div`
