@@ -56,13 +56,19 @@ function Inline({
   align = "left",
   spacing = "md",
   verticalAlign = "top",
+  wrap = "wrap",
   children,
 }) {
   const alignStyles = ALIGNS[align];
   const spacingStyles = SPACINGS[spacing];
   const verticalAlignStyles = VERTICAL_ALIGNS[verticalAlign];
 
-  const styles = { ...alignStyles, ...spacingStyles, ...verticalAlignStyles };
+  const styles = {
+    ...alignStyles,
+    ...spacingStyles,
+    ...verticalAlignStyles,
+    "--wrap": wrap,
+  };
 
   return (
     <Wrapper style={styles}>
@@ -80,7 +86,7 @@ export default Inline;
 
 const Wrapper = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: var(--wrap);
   margin-top: calc(var(--spacing) * -1);
   margin-left: calc(var(--spacing) * -1);
   justify-content: var(--justify-content);

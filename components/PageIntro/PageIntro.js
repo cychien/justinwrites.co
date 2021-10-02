@@ -2,10 +2,10 @@ import styled from "styled-components";
 
 import Stack from "components/Stack";
 
-function PageIntro({ title, description }) {
+function PageIntro({ title, description, dense }) {
   return (
     <Wrapper>
-      <Stack spacing="lg">
+      <Stack spacing={dense ? "mdp" : "lg"}>
         <Title>{title}</Title>
         {description && <Description>{description}</Description>}
       </Stack>
