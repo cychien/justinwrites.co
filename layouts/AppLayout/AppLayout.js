@@ -11,7 +11,6 @@ function AppLayout({ children }) {
       <GlobalStyle />
       <Spacer axis="vertical" size="16" when={{ mdAndUp: "36" }} />
       <Header />
-      <Spacer axis="vertical" size="48" />
       {children}
       <FooterWrapper>
         <Footer />

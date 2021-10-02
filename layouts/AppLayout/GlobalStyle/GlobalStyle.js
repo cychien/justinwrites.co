@@ -116,7 +116,7 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Open Sans',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
-    line-height: 1.7;
+    line-height: 1.5;
     background-color: var(--gray-50);
     color: var(--gray-900);
   }
