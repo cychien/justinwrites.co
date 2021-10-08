@@ -41,6 +41,9 @@ const SPACINGS = {
 };
 
 const VERTICAL_ALIGNS = {
+  baseline: {
+    "--align-items": "baseline",
+  },
   top: {
     "--align-items": "stretch",
   },

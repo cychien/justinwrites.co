@@ -60,7 +60,8 @@ const IconWrapper = styled.div`
 
 const Title = styled.div`
   font-size: ${18 / 16}rem;
-  color: var(--gray-900);
+  font-weight: 600;
+  color: var(--gray-600);
 
   /* Smaller space between icon and title in mobile */
   margin-left: -8px;

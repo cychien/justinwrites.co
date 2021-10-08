@@ -7,7 +7,9 @@ function PageIntro({ title, description, dense }) {
     <Wrapper>
       <Stack spacing={dense ? "mdp" : "lg"}>
         <Title>{title}</Title>
-        {description && <Description>{description}</Description>}
+        {description && (
+          <Description dangerouslySetInnerHTML={{ __html: description }} />
+        )}
       </Stack>
     </Wrapper>
   );

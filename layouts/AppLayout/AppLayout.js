@@ -5,15 +5,19 @@ import Header from "./Header";
 import Spacer from "components/Spacer";
 import Footer from "./Footer";
 
-function AppLayout({ children }) {
+function AppLayout({ children, blogName, enabledFeatures, email }) {
   return (
     <Wrapper>
       <GlobalStyle />
-      <Spacer axis="vertical" size="16" when={{ mdAndUp: "36" }} />
-      <Header />
+      <Spacer axis="vertical" size="0" when={{ mdAndUp: "28" }} />
+      <Header blogName={blogName} enabledFeatures={enabledFeatures} />
       {children}
       <FooterWrapper>
-        <Footer />
+        <Footer
+          blogName={blogName}
+          enabledFeatures={enabledFeatures}
+          email={email}
+        />
       </FooterWrapper>
     </Wrapper>
   );

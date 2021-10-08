@@ -9,7 +9,11 @@ import ShiftBy from "components/ShiftBy";
 import MobileMenu from "./MobileMenu";
 import pages from "constants/pages";
 
-function Header() {
+function Header({ blogName, enabledFeatures }) {
+  const availablePages = pages.filter((page) =>
+    enabledFeatures.includes(page.value)
+  );
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const openMobileMenu = useCallback(() => {
@@ -26,13 +30,13 @@ function Header() {
         <Flex>
           <Left>
             <Link href="/" passHref>
-              <Logo>Justin writes</Logo>
+              <Logo>{blogName}</Logo>
             </Link>
           </Left>
 
           <DesktopNav>
             <Inline spacing="lg">
-              {pages.map((page) => (
+              {availablePages.map((page) => (
                 <Link href={page.url} passHref key={page.title}>
                   <NavItem>{page.title}</NavItem>
                 </Link>
@@ -51,7 +55,7 @@ function Header() {
           <MobileMenu
             isOpen={isMobileMenuOpen}
             onClose={closeMobileMenu}
-            pages={pages}
+            pages={availablePages}
           />
         </Flex>
       </Container>
@@ -62,7 +66,17 @@ function Header() {
 export default Header;
 
 const Wrapper = styled.header`
-  padding: var(--spacing-2) 0;
+  position: sticky;
+  top: 0;
+  background-color: var(--gray-50);
+  z-index: 99;
+
+  border-bottom: 1px solid var(--gray-200);
+  padding: var(--spacing-4) 0;
+
+  @media (min-width: 576px) {
+    border-bottom: none;
+  }
 `;
 
 const Flex = styled.div`
@@ -89,7 +103,15 @@ const DesktopNav = styled.nav`
 `;
 
 const NavItem = styled.a`
+  padding: 8px 16px;
+  border-radius: 4px;
   text-transform: uppercase;
+
+  transition: background-color 150ms;
+
+  &:hover {
+    background-color: var(--gray-200);
+  }
 `;
 
 const MobileNav = styled.nav`

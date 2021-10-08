@@ -1,25 +1,56 @@
+import { useEffect, useRef } from "react";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
+import { Client } from "@notionhq/client";
+import ArrowNarrowRightIcon from "@heroicons/react/outline/ArrowNarrowRightIcon";
+import { animate } from "motion";
 
+import Inline from "components/Inline";
 import Spacer from "components/Spacer";
+import Button from "components/Button";
+import ShiftBy from "components/ShiftBy";
 import Container from "components/Container";
 import PageIntro from "components/PageIntro";
 import Topic from "features/homepage/components/Topic";
-import topics from "constants/topics";
 import NewsletterFormFullPage from "features/newsletter/components/NewsletterFormFullPage";
+import AppLayout from "layouts/AppLayout";
 
-export default function Home() {
+export default function Home({ globalSettings, homepageSettings }) {
+  const { blogName, enabledFeatures, email } = globalSettings;
+  const {
+    greeting,
+    introduction,
+    cover,
+    seoTitle,
+    seoDescription,
+    topics,
+  } = homepageSettings;
+
+  const imageRef = useRef();
+
+  useEffect(() => {
+    animate(
+      imageRef.current,
+      { transform: "translate(0, 0)" },
+      { delay: 0.5, duration: 0.7, easing: "ease-out" }
+    );
+  }, []);
+
   return (
-    <div>
+    <AppLayout
+      blogName={blogName[0]}
+      enabledFeatures={enabledFeatures}
+      email={email[0]}
+    >
       <Head>
-        {/* TODO: Use real data */}
-        <title>Home</title>
-        <meta name="description" content="Home" />
+        <title>{seoTitle[0]}</title>
+        <meta name="description" content={seoDescription[0]} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Spacer axis="vertical" size="32" when={{ mdAndUp: 50 }} />
+      <Spacer axis="vertical" size="24" when={{ mdAndUp: 42 }} />
 
       <Main>
         <Container>
@@ -27,20 +58,20 @@ export default function Home() {
           <Section>
             <HeroWrapper>
               <Intro>
-                <PageIntro
-                  title="Hi, I am Justin"
-                  description="玉山主峰山貌高峻，四面皆是陡壁危崖，南北兩側是千仞峭壁，西側絕壑深溝，東側則是碎石陡坡。玉山無論山容或山勢皆在台灣為最具規模，除了是台灣五岳之首、百岳之王外，更重要的是玉山群峰地區蘊含著珍貴的生命寶藏。這裡有亞熱帶、暖溫帶。 玉山主峰山貌高峻，四面皆是陡壁危崖，南北兩側是千仞峭壁，西側絕壑深溝，東側則是碎石陡坡。玉山無論山容或山勢皆在台灣為最具規模，除了是台灣五岳之首、百岳之王外。"
-                />
+                <PageIntro title={greeting[0]} description={introduction[0]} />
               </Intro>
               <Cover>
                 <ImageWrapper>
-                  <Image
-                    src="https://picsum.photos/200/300"
-                    layout="fill"
-                    objectFit="cover"
-                    alt="Picture of me"
-                    priority
-                  />
+                  <ImageElement ref={imageRef}>
+                    <Image
+                      src={cover[0]}
+                      layout="fill"
+                      objectFit="cover"
+                      alt="Picture of me"
+                      priority
+                    />
+                  </ImageElement>
+                  <ImageShadow />
                 </ImageWrapper>
               </Cover>
             </HeroWrapper>
@@ -48,7 +79,21 @@ export default function Home() {
 
           {/* Topic section */}
           <Section>
-            <SectionTitle>在這裡，我想和你分享...</SectionTitle>
+            <Inline align="spaceBetween" verticalAlign="center">
+              <SectionTitle>我喜歡寫作，特別是這些主題</SectionTitle>
+              <Link href="/blog" passHref>
+                <GoTo>
+                  <Button>
+                    <Inline spacing="xs">
+                      前往閱讀
+                      <ShiftBy y={2}>
+                        <GoToIcon />
+                      </ShiftBy>
+                    </Inline>
+                  </Button>
+                </GoTo>
+              </Link>
+            </Inline>
             <Spacer axis="vertical" size="26" when={{ mdAndUp: "40" }} />
             <Topics>
               {topics.map((topic) => (
@@ -64,17 +109,95 @@ export default function Home() {
           </Section>
 
           {/* Newsletter section */}
-          <Section>
-            <SectionTitle>
-              如果喜歡我的內容, 訂閱 <strong>MONDAY ENERGY</strong> 看更多 !
-            </SectionTitle>
-            <Spacer axis="vertical" size="36" />
-            <NewsletterFormFullPage />
-          </Section>
+          {enabledFeatures.includes("newsletter") && (
+            <Section>
+              <SectionTitle>
+                如果喜歡我的內容, 訂閱 <strong>MONDAY ENERGY</strong> 看更多 !
+              </SectionTitle>
+              <Spacer axis="vertical" size="36" />
+              <NewsletterFormFullPage />
+            </Section>
+          )}
         </Container>
       </Main>
-    </div>
+    </AppLayout>
   );
+}
+
+export async function getStaticProps() {
+  const notion = new Client({ auth: process.env.NOTION_SECRET });
+
+  const globalSettingsId = process.env.NOTION_GLOBAL_SETTINGS_ID;
+  const globalSettingsCollection = await notion.databases.query({
+    database_id: globalSettingsId,
+  });
+
+  const globalSettingsRaw = globalSettingsCollection.results[0];
+
+  const globalSettings = {
+    id: globalSettingsRaw?.id,
+    blogName: globalSettingsRaw?.properties?.blog_name?.title?.map(
+      (text) => text?.text?.content
+    ),
+    enabledFeatures: globalSettingsRaw?.properties?.enabled_features.multi_select?.map(
+      (feature) => feature?.name
+    ),
+    email: globalSettingsRaw?.properties?.email?.rich_text?.map(
+      (text) => text?.text?.content
+    ),
+    createdTime: globalSettingsRaw?.created_time,
+  };
+
+  const homepageSettingsId = process.env.NOTION_HOMEPAGE_SETTINGS_ID;
+  const homepageSettingsCollection = await notion.databases.query({
+    database_id: homepageSettingsId,
+  });
+
+  const homepageSettingsRaw = homepageSettingsCollection.results[0];
+
+  const topics = [];
+
+  for (const [key, value] of Object.entries(homepageSettingsRaw?.properties)) {
+    if (key.includes("topic")) {
+      const topicIndex = key.split(":")[1];
+      const content = value?.rich_text
+        ?.map((text) => text?.text?.content)[0]
+        .split(":");
+
+      topics[topicIndex] = {
+        icon: content[0],
+        title: content[1],
+        description: content[2],
+        emphasized: !!content[3],
+      };
+    }
+  }
+
+  const homepageSettings = {
+    id: homepageSettingsRaw?.id,
+    seoTitle: homepageSettingsRaw?.properties?.seo_title?.title?.map(
+      (text) => text?.text?.content
+    ),
+    seoDescription: homepageSettingsRaw?.properties?.seo_description?.rich_text?.map(
+      (text) => text?.text?.content
+    ),
+    greeting: homepageSettingsRaw?.properties?.greeting?.rich_text?.map(
+      (text) => text?.text?.content
+    ),
+    introduction: homepageSettingsRaw?.properties?.introduction?.rich_text?.map(
+      (text) => text?.text?.content?.replace(/\n/g, "<br />")
+    ),
+    cover: homepageSettingsRaw?.properties?.cover?.files?.map(
+      (file) => file?.external?.url || file?.file?.url
+    ),
+    createdTime: homepageSettingsRaw?.created_time,
+    topics,
+  };
+
+  return {
+    props: { globalSettings, homepageSettings },
+    revalidate: 1,
+  };
 }
 
 const Main = styled.main`
@@ -91,8 +214,10 @@ const HeroWrapper = styled.div`
 
 const Intro = styled.div`
   flex: 1;
-  display: flex;
-  align-items: center;
+
+  @media (min-width: 992px) {
+    padding-top: 48px;
+  }
 `;
 
 const Cover = styled.div`
@@ -122,6 +247,43 @@ const ImageWrapper = styled.div`
   @media (min-width: 992px) {
     width: 378px;
     height: 434px;
+  }
+`;
+
+const ImageElement = styled.div`
+  width: 100%;
+  height: 100%;
+
+  @media (min-width: 768px) {
+    transform: translate(12px, 12px);
+  }
+
+  @media (min-width: 992px) {
+    transform: translate(24px, 16px);
+  }
+
+  & > div {
+    border-radius: 4px;
+  }
+`;
+
+const ImageShadow = styled.div`
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+  background-color: var(--gray-200);
+  border-radius: 4px;
+  z-index: -1;
+
+  @media (min-width: 768px) {
+    top: 12px;
+    left: 12px;
+  }
+
+  @media (min-width: 992px) {
+    top: 16px;
+    left: 24px;
   }
 `;
 
@@ -166,5 +328,22 @@ const Section = styled.section`
     @media (min-width: 768px) {
       margin-bottom: 120px;
     }
+  }
+`;
+
+const GoTo = styled.a``;
+
+const GoToIcon = styled(ArrowNarrowRightIcon)`
+  display: block;
+  opacity: 0.5;
+  width: 24px;
+  height: 24px;
+
+  transition: transform 300ms, opacity 300ms;
+
+  ${GoTo}:hover & {
+    opacity: 1;
+    will-change: transform;
+    transform: translateX(6px);
   }
 `;

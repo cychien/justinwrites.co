@@ -1,41 +1,55 @@
 import Head from "next/head";
-import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
+import { Client } from "@notionhq/client";
 
 import Spacer from "components/Spacer";
 import Container from "components/Container";
-import { Columns, Column } from "components/Columns";
 import PageIntro from "components/PageIntro";
-import Inline from "components/Inline";
-import Stack from "components/Stack";
 import PostCard from "features/post/components/PostCard";
 import PostBlock from "features/post/components/PostBlock";
+import AppLayout from "layouts/AppLayout";
 
-export default function Blog() {
+export default function Blog({ globalSettings, blogPageSettings, posts }) {
+  const { blogName, enabledFeatures, email } = globalSettings;
+  const { introduction, seoTitle, seoDescription } = blogPageSettings;
+
+  const firstPost = posts[0];
+
   return (
-    <div>
+    <AppLayout
+      blogName={blogName[0]}
+      enabledFeatures={enabledFeatures}
+      email={email[0]}
+    >
       <Head>
-        {/* TODO: Use real data */}
-        <title>Blog</title>
-        <meta name="description" content="Blog" />
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Spacer axis="vertical" size="32" when={{ mdAndUp: 50 }} />
+      <Spacer axis="vertical" size="24" when={{ mdAndUp: 42 }} />
 
       <Main>
         <Container>
           <HeroWrapper>
             <Intro>
-              <PageIntro
-                title="Blog"
-                description="玉山主峰山貌高峻，四面皆是陡壁危崖，南北兩側是千仞峭壁，西側絕壑深溝，東側則是碎石陡坡。玉山無論山容或山勢皆在台灣為最具規模，除了是台灣五岳之首、百岳之王外，更重要的是玉山群峰地區蘊含著珍貴的生命寶藏。這裡有亞熱帶、暖溫帶"
-                dense
-              />
+              <PageIntro title="Blog" description={introduction[0]} dense />
             </Intro>
 
             <FeaturedPost>
-              <PostCard imageSrc="https://picsum.photos/1200/1200" />
+              <Link href={`/blog/${firstPost.id}`} passHref>
+                <PostLink>
+                  <PostCard
+                    title={firstPost.title[0]}
+                    cover={firstPost.cover?.[0]}
+                    excerpt={firstPost.excerpt?.[0]}
+                    publishDate={firstPost.createdTime}
+                    tags={firstPost?.tags}
+                    priority
+                  />
+                </PostLink>
+              </Link>
             </FeaturedPost>
           </HeroWrapper>
 
@@ -43,14 +57,100 @@ export default function Blog() {
           <Divider />
           <Spacer axis="vertical" size="55" />
 
-          <PostList>
-            <PostBlock />
-            <PostBlock />
-          </PostList>
+          {posts.length > 0 && (
+            <PostList>
+              {posts.map((data) => (
+                <Link key={data.id} href={`/blog/${data.id}`} passHref>
+                  <PostLink>
+                    <PostBlock
+                      key={data.id}
+                      title={data.title[0]}
+                      cover={data.cover?.[0]}
+                      excerpt={data.excerpt?.[0]}
+                      publishDate={data.createdTime}
+                      tags={data?.tags}
+                    />
+                  </PostLink>
+                </Link>
+              ))}
+            </PostList>
+          )}
         </Container>
       </Main>
-    </div>
+    </AppLayout>
   );
+}
+
+export async function getStaticProps() {
+  const notion = new Client({ auth: process.env.NOTION_SECRET });
+
+  const globalSettingsId = process.env.NOTION_GLOBAL_SETTINGS_ID;
+  const globalSettingsCollection = await notion.databases.query({
+    database_id: globalSettingsId,
+  });
+
+  const globalSettingsRaw = globalSettingsCollection.results[0];
+
+  const globalSettings = {
+    id: globalSettingsRaw?.id,
+    blogName: globalSettingsRaw?.properties?.blog_name?.title?.map(
+      (text) => text?.text?.content
+    ),
+    enabledFeatures: globalSettingsRaw?.properties?.enabled_features.multi_select?.map(
+      (feature) => feature?.name
+    ),
+    email: globalSettingsRaw?.properties?.email?.rich_text?.map(
+      (text) => text?.text?.content
+    ),
+    createdTime: globalSettingsRaw?.created_time,
+  };
+
+  const blogPageSettingsId = process.env.NOTION_BLOGPAGE_SETTINGS_ID;
+  const blogPageSettingsCollection = await notion.databases.query({
+    database_id: blogPageSettingsId,
+  });
+
+  const blogPageSettingsRaw = blogPageSettingsCollection.results[0];
+
+  const blogPageSettings = {
+    id: blogPageSettingsRaw?.id,
+    seoTitle: blogPageSettingsRaw?.properties?.seo_title?.title?.map(
+      (text) => text?.text?.content
+    ),
+    seoDescription: blogPageSettingsRaw?.properties?.seo_description?.rich_text?.map(
+      (text) => text?.text?.content
+    ),
+    introduction: blogPageSettingsRaw?.properties?.introduction?.rich_text?.map(
+      (text) => text?.text?.content?.replace(/\n/g, "<br />")
+    ),
+    createdTime: blogPageSettingsRaw?.created_time,
+  };
+
+  const postsId = process.env.NOTION_POSTS_ID;
+  const postsRaw = await notion.databases.query({ database_id: postsId });
+
+  const posts = postsRaw.results
+    .filter((page) => page?.properties?.name?.title.length > 0)
+    .map((page) => ({
+      id: page?.id,
+      title: page?.properties?.name?.title?.map((text) => text?.text?.content),
+      cover: page?.properties?.cover?.files?.map(
+        (file) => file?.external?.url || file?.file?.url
+      ),
+      excerpt: page?.properties?.excerpt?.rich_text?.map(
+        (text) => text?.text?.content
+      ),
+      tags: page?.properties?.tags.multi_select?.map((tag) => ({
+        id: tag?.id,
+        name: tag?.name,
+      })),
+      createdTime: page?.created_time,
+    }));
+
+  return {
+    props: { globalSettings, blogPageSettings, posts },
+    revalidate: 1,
+  };
 }
 
 const Main = styled.main`
@@ -67,6 +167,10 @@ const HeroWrapper = styled.div`
 
 const Intro = styled.div`
   flex: 1;
+
+  @media (min-width: 992px) {
+    padding-top: 48px;
+  }
 `;
 
 const FeaturedPost = styled.div`
@@ -85,6 +189,10 @@ const FeaturedPost = styled.div`
   }
 `;
 
+const PostLink = styled.a`
+  display: block;
+`;
+
 const Divider = styled.div`
   height: 1px;
   max-width: min(300px, 33%);
@@ -94,6 +202,12 @@ const Divider = styled.div`
 const PostList = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (min-width: 768px) {
+    & > *:first-child {
+      display: none;
+    }
+  }
 
   & > *:not(:last-child) {
     margin-bottom: 24px;

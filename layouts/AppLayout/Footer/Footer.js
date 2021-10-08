@@ -3,33 +3,34 @@ import Link from "next/link";
 
 import Container from "components/Container";
 import Inline from "components/Inline";
-import Stack from "components/Stack";
 import Spacer from "components/Spacer";
+import pages from "constants/pages";
 
-function Footer() {
+function Footer({ blogName, enabledFeatures, email }) {
+  const availablePages = pages.filter((page) =>
+    enabledFeatures.includes(page.value)
+  );
+
   return (
     <Wrapper>
       <Container>
         <Inline align="spaceBetween">
           <div>
             <Link href="/" passHref>
-              <LogoText>Justin writes</LogoText>
+              <LogoText>{blogName}</LogoText>
             </Link>
             <Spacer axis="vertical" size="12" />
-            <Email>justin@justinwrites.co</Email>
+            <Email>{email}</Email>
             <Spacer axis="vertical" size="6" />
             <CopyRight>Designed and built by Justin Chien in 2021.</CopyRight>
           </div>
           <SiteMap>
             <Inline spacing="lg">
-              <Link href="/blog">Blog</Link>
-              <Link href="/books">Books</Link>
-              <Stack spacing="smp">
-                <Link href="/dev">Dev</Link>
-                <Link href="/dev/portfolio">Dev Portfolio</Link>
-                <Link href="/dev/blog">Dev Blog</Link>
-              </Stack>
-              <Link href="/newsletter">Newsletter</Link>
+              {availablePages.map((page) => (
+                <Link href={page.url} key={page.title} passHref>
+                  <PageLink>{page.title}</PageLink>
+                </Link>
+              ))}
             </Inline>
           </SiteMap>
         </Inline>
@@ -50,10 +51,16 @@ const Wrapper = styled.footer`
   }
 `;
 
-const LogoText = styled.div`
+const LogoText = styled.a`
   font-family: var(--font-mont);
   font-weight: 600;
   color: var(--gray-700);
+
+  transition: color 150ms;
+
+  &:hover {
+    color: var(--gray-500);
+  }
 `;
 
 const Email = styled.div`
@@ -72,5 +79,15 @@ const SiteMap = styled.div`
   @media (min-width: 768px) {
     display: block;
     color: var(--gray-700);
+  }
+`;
+
+const PageLink = styled.a`
+  color: var(--gray-700);
+
+  transition: color 150ms;
+
+  &:hover {
+    color: var(--gray-500);
   }
 `;

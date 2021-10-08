@@ -12,7 +12,7 @@ const SIZES = {
   md: {
     "--border-radius": "4px",
     "--font-size": "1rem",
-    "--padding": "8px 32px",
+    "--padding": "8px 16px",
   },
 };
 
