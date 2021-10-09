@@ -121,12 +121,16 @@ export default function Post({ globalSettings, pageData }) {
 
                 if (
                   block.type === "image" &&
-                  block[block.type]?.external?.url?.includes("http")
+                  (block[block.type]?.external?.url?.includes("http") ||
+                    block[block.type]?.file?.url?.includes("http"))
                 ) {
                   return (
                     <BodyImageWrapper key={block.id}>
                       <Image
-                        src={block[block.type]?.external?.url}
+                        src={
+                          block[block.type]?.external?.url ||
+                          block[block.type]?.file.url
+                        }
                         layout="fill"
                         alt="image"
                         priority
