@@ -120,9 +120,9 @@ const Title = styled.h3`
 
   transition: color 150ms;
 
-  a:hover & {
+  /* a:hover & {
     color: var(--teal-600);
-  }
+  } */
 
   @media (min-width: 768px) {
     font-size: ${18 / 16}rem;
