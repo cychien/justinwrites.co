@@ -34,7 +34,7 @@ function Header({ blogName, enabledFeatures }) {
             </Link>
           </Left>
 
-          <DesktopNav>
+          {/* <DesktopNav>
             <Inline spacing="lg">
               {availablePages.map((page) => (
                 <Link href={page.url} passHref key={page.title}>
@@ -42,7 +42,7 @@ function Header({ blogName, enabledFeatures }) {
                 </Link>
               ))}
             </Inline>
-          </DesktopNav>
+          </DesktopNav> */}
 
           {/* <MobileNav>
             <ShiftBy y={3}>
