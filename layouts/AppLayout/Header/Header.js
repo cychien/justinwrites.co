@@ -44,7 +44,7 @@ function Header({ blogName, enabledFeatures }) {
             </Inline>
           </DesktopNav>
 
-          <MobileNav>
+          {/* <MobileNav>
             <ShiftBy y={3}>
               <OpenMenuButton onClick={openMobileMenu}>
                 <MenuIcon />
@@ -56,7 +56,7 @@ function Header({ blogName, enabledFeatures }) {
             isOpen={isMobileMenuOpen}
             onClose={closeMobileMenu}
             pages={availablePages}
-          />
+          /> */}
         </Flex>
       </Container>
     </Wrapper>
