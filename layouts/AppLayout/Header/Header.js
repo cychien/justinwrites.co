@@ -28,11 +28,11 @@ function Header({ blogName, enabledFeatures }) {
     <Wrapper>
       <Container>
         <Flex>
-          <Left>
+          {/* <Left>
             <Link href="/" passHref>
               <Logo>{blogName}</Logo>
             </Link>
-          </Left>
+          </Left> */}
 
           {/* <DesktopNav>
             <Inline spacing="lg">
