@@ -18,50 +18,50 @@ function PostBlock({ id, title, cover, excerpt, publishDate, tags }) {
   return (
     <Wrapper>
       <Link href={`/blog/${id}`} passHref>
-        <PostLink>
-          <Flex>
-            <ImageWrapper>
-              {cover ? (
-                <Image
-                  src={cover}
-                  layout="fill"
-                  objectFit="cover"
-                  alt="Post Image"
-                />
-              ) : (
-                <ImagePlaceholder />
-              )}
-            </ImageWrapper>
+        {/* <PostLink> */}
+        <Flex>
+          <ImageWrapper>
+            {cover ? (
+              <Image
+                src={cover}
+                layout="fill"
+                objectFit="cover"
+                alt="Post Image"
+              />
+            ) : (
+              <ImagePlaceholder />
+            )}
+          </ImageWrapper>
 
-            <ContentWrapper>
-              <Title>{title}</Title>
-              {excerpt && (
-                <>
-                  <Spacer axis="vertical" size="4" when={{ mdAndUp: 12 }} />
-                  <Excerpt>{excerpt}</Excerpt>
-                </>
-              )}
-              <Spacer axis="vertical" size="0" when={{ mdAndUp: 4 }} />
-              <Metadata>
-                <Inline verticalAlign="center">
-                  <span>{formattedPublishDate}</span>
-                  {tags.length > 0 && (
-                    <Flex>
-                      <TagIconElem />
-                      <Spacer axis="horizontal" size={2} />
-                      <span>{tags[0].name}</span>
-                    </Flex>
-                  )}
-                </Inline>
-              </Metadata>
-            </ContentWrapper>
-          </Flex>
+          <ContentWrapper>
+            <Title>{title}</Title>
+            {excerpt && (
+              <>
+                <Spacer axis="vertical" size="4" when={{ mdAndUp: 12 }} />
+                <Excerpt>{excerpt}</Excerpt>
+              </>
+            )}
+            <Spacer axis="vertical" size="0" when={{ mdAndUp: 4 }} />
+            <Metadata>
+              <Inline verticalAlign="center">
+                <span>{formattedPublishDate}</span>
+                {tags.length > 0 && (
+                  <Flex>
+                    <TagIconElem />
+                    <Spacer axis="horizontal" size={2} />
+                    <span>{tags[0].name}</span>
+                  </Flex>
+                )}
+              </Inline>
+            </Metadata>
+          </ContentWrapper>
+        </Flex>
 
-          {/* <Operations>
+        {/* <Operations>
         <LikeIcon />
       </Operations> */}
-          {/* <ReadMore>讀更多</ReadMore> */}
-        </PostLink>
+        {/* <ReadMore>讀更多</ReadMore> */}
+        {/* </PostLink> */}
       </Link>
     </Wrapper>
   );
