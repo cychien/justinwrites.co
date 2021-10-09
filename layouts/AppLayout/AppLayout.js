@@ -10,15 +10,15 @@ function AppLayout({ children, blogName, enabledFeatures, email }) {
     <Wrapper>
       {/* <GlobalStyle /> */}
       <Spacer axis="vertical" size="0" when={{ mdAndUp: "28" }} />
-      <Header blogName={blogName} enabledFeatures={enabledFeatures} />
+      {/* <Header blogName={blogName} enabledFeatures={enabledFeatures} /> */}
       {children}
-      {/* <FooterWrapper>
+      <FooterWrapper>
         <Footer
           blogName={blogName}
           enabledFeatures={enabledFeatures}
           email={email}
         />
-      </FooterWrapper> */}
+      </FooterWrapper>
     </Wrapper>
   );
 }
