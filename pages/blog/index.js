@@ -17,11 +17,7 @@ export default function Blog({ globalSettings, blogPageSettings, posts }) {
   const firstPost = posts[0];
 
   return (
-    <AppLayout
-      blogName={blogName[0]}
-      enabledFeatures={enabledFeatures}
-      email={email[0]}
-    >
+    <div>
       <Head>
         <title>{seoTitle}</title>
         <meta name="description" content={seoDescription} />
@@ -74,7 +70,7 @@ export default function Blog({ globalSettings, blogPageSettings, posts }) {
           )}
         </Container>
       </Main>
-    </AppLayout>
+    </div>
   );
 }
 
