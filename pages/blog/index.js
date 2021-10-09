@@ -58,7 +58,7 @@ export default function Blog({ globalSettings, blogPageSettings, posts }) {
           <Spacer axis="vertical" size="55" />
 
           {posts.length > 0 && (
-            <PostList>
+            <div>
               {posts.map((data) => (
                 <PostBlock
                   key={data.id}
@@ -70,7 +70,7 @@ export default function Blog({ globalSettings, blogPageSettings, posts }) {
                   tags={data?.tags}
                 />
               ))}
-            </PostList>
+            </div>
           )}
         </Container>
       </Main>
