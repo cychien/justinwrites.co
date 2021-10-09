@@ -16,10 +16,10 @@ function PostBlock({ id, title, cover, excerpt, publishDate, tags }) {
   );
 
   return (
-    <Wrapper>
-      <Link href={`/blog/${id}`} passHref>
-        {/* <PostLink> */}
-        <Flex>
+    <Link href={`/blog/${id}`} passHref>
+      {title}
+      {/* <PostLink> */}
+      {/* <Flex>
           <ImageWrapper>
             {cover ? (
               <Image
@@ -55,15 +55,13 @@ function PostBlock({ id, title, cover, excerpt, publishDate, tags }) {
               </Inline>
             </Metadata>
           </ContentWrapper>
-        </Flex>
-
-        {/* <Operations>
+        </Flex> */}
+      {/* <Operations>
         <LikeIcon />
       </Operations> */}
-        {/* <ReadMore>讀更多</ReadMore> */}
-        {/* </PostLink> */}
-      </Link>
-    </Wrapper>
+      {/* <ReadMore>讀更多</ReadMore> */}
+      {/* </PostLink> */}
+    </Link>
   );
 }
 
