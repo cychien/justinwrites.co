@@ -164,10 +164,10 @@ const ReadMore = styled.div`
 
   transition: transform 300ms, opacity 300ms;
 
-  ${Wrapper}:hover & {
+  /* ${Wrapper}:hover & {
     transform: translateY(0);
     opacity: 1;
-  }
+  } */
 `;
 
 const Operations = styled.div`
