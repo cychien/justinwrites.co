@@ -60,18 +60,15 @@ export default function Blog({ globalSettings, blogPageSettings, posts }) {
           {posts.length > 0 && (
             <PostList>
               {posts.map((data) => (
-                <Link key={data.id} href={`/blog/${data.id}`} passHref>
-                  <PostLink>
-                    <PostBlock
-                      key={data.id}
-                      title={data.title[0]}
-                      cover={data.cover?.[0]}
-                      excerpt={data.excerpt?.[0]}
-                      publishDate={data.createdTime}
-                      tags={data?.tags}
-                    />
-                  </PostLink>
-                </Link>
+                <PostBlock
+                  key={data.id}
+                  id={data.id}
+                  title={data.title[0]}
+                  cover={data.cover?.[0]}
+                  excerpt={data.excerpt?.[0]}
+                  publishDate={data.createdTime}
+                  tags={data?.tags}
+                />
               ))}
             </PostList>
           )}

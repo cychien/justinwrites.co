@@ -4,11 +4,12 @@ import Image from "next/image";
 import TagIcon from "@heroicons/react/solid/TagIcon";
 import HeartIcon from "@heroicons/react/outline/HeartIcon";
 import format from "date-fns/format";
+import Link from "next/link";
 
 import Inline from "components/Inline";
 import Spacer from "components/Spacer";
 
-function PostBlock({ title, cover, excerpt, publishDate, tags }) {
+function PostBlock({ id, title, cover, excerpt, publishDate, tags }) {
   const formattedPublishDate = useMemo(
     () => format(new Date(publishDate), "MMM.dd"),
     [publishDate]
@@ -16,48 +17,52 @@ function PostBlock({ title, cover, excerpt, publishDate, tags }) {
 
   return (
     <Wrapper>
-      <Flex>
-        <ImageWrapper>
-          {cover ? (
-            <Image
-              src={cover}
-              layout="fill"
-              objectFit="cover"
-              alt="Post Image"
-            />
-          ) : (
-            <ImagePlaceholder />
-          )}
-        </ImageWrapper>
-
-        <ContentWrapper>
-          <Title>{title}</Title>
-          {excerpt && (
-            <>
-              <Spacer axis="vertical" size="4" when={{ mdAndUp: 12 }} />
-              <Excerpt>{excerpt}</Excerpt>
-            </>
-          )}
-          <Spacer axis="vertical" size="0" when={{ mdAndUp: 4 }} />
-          <Metadata>
-            <Inline verticalAlign="center">
-              <span>{formattedPublishDate}</span>
-              {tags.length > 0 && (
-                <Flex>
-                  <TagIconElem />
-                  <Spacer axis="horizontal" size={2} />
-                  <span>{tags[0].name}</span>
-                </Flex>
+      <Link href={`/blog/${id}`} passHref>
+        <PostLink>
+          <Flex>
+            <ImageWrapper>
+              {cover ? (
+                <Image
+                  src={cover}
+                  layout="fill"
+                  objectFit="cover"
+                  alt="Post Image"
+                />
+              ) : (
+                <ImagePlaceholder />
               )}
-            </Inline>
-          </Metadata>
-        </ContentWrapper>
-      </Flex>
+            </ImageWrapper>
 
-      {/* <Operations>
+            <ContentWrapper>
+              <Title>{title}</Title>
+              {excerpt && (
+                <>
+                  <Spacer axis="vertical" size="4" when={{ mdAndUp: 12 }} />
+                  <Excerpt>{excerpt}</Excerpt>
+                </>
+              )}
+              <Spacer axis="vertical" size="0" when={{ mdAndUp: 4 }} />
+              <Metadata>
+                <Inline verticalAlign="center">
+                  <span>{formattedPublishDate}</span>
+                  {tags.length > 0 && (
+                    <Flex>
+                      <TagIconElem />
+                      <Spacer axis="horizontal" size={2} />
+                      <span>{tags[0].name}</span>
+                    </Flex>
+                  )}
+                </Inline>
+              </Metadata>
+            </ContentWrapper>
+          </Flex>
+
+          {/* <Operations>
         <LikeIcon />
       </Operations> */}
-      {/* <ReadMore>讀更多</ReadMore> */}
+          {/* <ReadMore>讀更多</ReadMore> */}
+        </PostLink>
+      </Link>
     </Wrapper>
   );
 }
@@ -174,4 +179,9 @@ const LikeIcon = styled(HeartIcon)`
   color: var(--gray-400);
   width: 20px;
   height: 20px;
+`;
+
+const PostLink = styled.a`
+  display: block;
+  width: 100%;
 `;
