@@ -115,7 +115,7 @@ const Title = styled.h3`
 
   transition: color 150ms;
 
-  ${Wrapper}:hover & {
+  a:hover & {
     color: var(--teal-600);
   }
 
