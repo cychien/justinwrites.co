@@ -8,7 +8,7 @@ import Footer from "./Footer";
 function AppLayout({ children, blogName, enabledFeatures, email }) {
   return (
     <Wrapper>
-      <GlobalStyle />
+      {/* <GlobalStyle /> */}
       <Spacer axis="vertical" size="0" when={{ mdAndUp: "28" }} />
       <Header blogName={blogName} enabledFeatures={enabledFeatures} />
       {children}
