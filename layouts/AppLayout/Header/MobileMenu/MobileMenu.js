@@ -56,7 +56,7 @@ function MobileMenu({ onClose, pages }) {
 export default MobileMenu;
 
 const Header = styled.div`
-  padding: ${16 + 12}px 0 12px;
+  padding: 16px 0 12px;
 `;
 
 const CloseMenuButton = styled.button`
