@@ -91,12 +91,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   /* Global Styles */
-  html,
-  body,
-  #__next {
-    height: 100%;
-  }
-
   *,
   *:before,
   *:after {
