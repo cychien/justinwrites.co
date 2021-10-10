@@ -52,11 +52,9 @@ function Header({ blogName, enabledFeatures }) {
             </ShiftBy>
           </MobileNav>
 
-          <MobileMenu
-            isOpen={isMobileMenuOpen}
-            onClose={closeMobileMenu}
-            pages={availablePages}
-          />
+          {isMobileMenuOpen && (
+            <MobileMenu onClose={closeMobileMenu} pages={availablePages} />
+          )}
         </Flex>
       </Container>
     </Wrapper>

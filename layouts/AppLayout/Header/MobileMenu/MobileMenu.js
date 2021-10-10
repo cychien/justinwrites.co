@@ -13,15 +13,15 @@ import Container from "components/Container";
 // TODO: fade-in animation
 // TODO: use 3-column grid
 
-function MobileMenu({ isOpen, onClose, pages }) {
+function MobileMenu({ onClose, pages }) {
   return (
-    <Menu open={isOpen} onClose={onClose}>
+    <Menu>
       <Content>
         <Container>
           <Header>
             <Inline align="right">
               <VisuallyHidden>
-                <Dialog.Title>Menu</Dialog.Title>
+                <h2>Menu</h2>
               </VisuallyHidden>
               <CloseMenuButton onClick={onClose}>
                 <CloseIcon />
@@ -70,7 +70,7 @@ const CloseIcon = styled(XIcon)`
   color: var(--gray-900);
 `;
 
-const Menu = styled(Dialog)`
+const Menu = styled.div`
   position: fixed;
   top: 0;
   bottom: 0;
