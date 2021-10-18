@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import styled from "styled-components";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import MenuAlt4Icon from "@heroicons/react/outline/MenuAlt4Icon";
 
 import Container from "components/Container";
@@ -15,6 +16,8 @@ function Header({ blogName, enabledFeatures }) {
   );
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const { pathname } = useRouter();
 
   const openMobileMenu = useCallback(() => {
     setIsMobileMenuOpen(true);
@@ -38,7 +41,17 @@ function Header({ blogName, enabledFeatures }) {
             <Inline spacing="lg">
               {availablePages.map((page) => (
                 <Link href={page.url} passHref key={page.title}>
-                  <NavItem>{page.title}</NavItem>
+                  <NavItem
+                    active={pathname === page.url}
+                    style={{
+                      "--color":
+                        pathname === page.url ? "var(--teal-600)" : null,
+                      "--background-color":
+                        pathname === page.url ? "#dff9f3" : null,
+                    }}
+                  >
+                    {page.title}
+                  </NavItem>
                 </Link>
               ))}
             </Inline>
@@ -104,6 +117,9 @@ const NavItem = styled.a`
   padding: 8px 16px;
   border-radius: 4px;
   text-transform: uppercase;
+  color: ${(props) => (props.active ? "var(--teal-600)" : "var(--gray-900)")};
+  background-color: ${(props) => (props.active ? "#d9f9f3" : "transparent")};
+  pointer-events: ${(props) => (props.active ? "none" : "auto")};
 
   transition: background-color 150ms;
 

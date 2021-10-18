@@ -50,8 +50,6 @@ export default function Home({ globalSettings, homepageSettings }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Spacer axis="vertical" size="24" when={{ mdAndUp: 42 }} />
-
       <Main>
         <Container>
           {/* Hero section */}
@@ -255,11 +253,7 @@ const ImageElement = styled.div`
   height: 100%;
 
   @media (min-width: 768px) {
-    transform: translate(12px, 12px);
-  }
-
-  @media (min-width: 992px) {
-    transform: translate(24px, 16px);
+    transform: translate(12px, 10px);
   }
 
   & > div {
@@ -277,13 +271,8 @@ const ImageShadow = styled.div`
   z-index: -1;
 
   @media (min-width: 768px) {
-    top: 12px;
+    top: 10px;
     left: 12px;
-  }
-
-  @media (min-width: 992px) {
-    top: 16px;
-    left: 24px;
   }
 `;
 

@@ -40,8 +40,6 @@ export default function Post({ globalSettings, pageData }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Spacer axis="vertical" size="0" when={{ mdAndUp: 42 }} />
-
       <Main>
         <Container>
           <HeroWrapper>
@@ -308,11 +306,12 @@ const HeroWrapper = styled.div`
 `;
 
 const Heading = styled.div`
-  padding: 32px 0 20px;
+  padding: 0 0 20px;
   flex: 1;
 
   @media (min-width: 768px) {
     margin-right: 40px;
+    padding: 32px 0 20px;
   }
 
   @media (min-width: 992px) {

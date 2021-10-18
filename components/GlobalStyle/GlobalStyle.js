@@ -73,6 +73,8 @@ const GlobalStyle = createGlobalStyle`
     --gray-800: #1f2937;
     --gray-900: #111827;
 
+    --teal-50: #F0FDFA;
+    --teal-100: #CCFBF1;
     --teal-500: #14B8A6;
     --teal-600: #0D9488;
 
@@ -91,6 +93,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   /* Global Styles */
+  html,
+  body,
+  #__next {
+    height: 100%;
+  }
+
   *,
   *:before,
   *:after {

@@ -28,8 +28,6 @@ export default function Blog({ globalSettings, blogPageSettings, posts }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Spacer axis="vertical" size="24" when={{ mdAndUp: 42 }} />
-
       <Main>
         <Container>
           <HeroWrapper>
@@ -55,7 +53,7 @@ export default function Blog({ globalSettings, blogPageSettings, posts }) {
 
           <Spacer axis="vertical" size="72" when={{ smAndUp: 48 }} />
           <Divider />
-          <Spacer axis="vertical" size="55" />
+          <Spacer axis="vertical" size="24" when={{ smAndUp: 55 }} />
 
           {posts.length > 0 && (
             <PostList>
@@ -210,10 +208,10 @@ const PostList = styled.div`
   }
 
   & > *:not(:last-child) {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 
     @media (min-width: 768px) {
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
   }
 `;

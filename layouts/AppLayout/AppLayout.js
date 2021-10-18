@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import GlobalStyle from "./GlobalStyle";
 import Header from "./Header";
 import Spacer from "components/Spacer";
 import Footer from "./Footer";
@@ -8,9 +7,9 @@ import Footer from "./Footer";
 function AppLayout({ children, blogName, enabledFeatures, email }) {
   return (
     <Wrapper>
-      <GlobalStyle />
-      <Spacer axis="vertical" size="0" when={{ mdAndUp: "28" }} />
+      <Spacer axis="vertical" size="0" when={{ mdAndUp: "16" }} />
       <Header blogName={blogName} enabledFeatures={enabledFeatures} />
+      <Spacer axis="vertical" size="24" when={{ mdAndUp: "40" }} />
       {children}
       <FooterWrapper>
         <Footer

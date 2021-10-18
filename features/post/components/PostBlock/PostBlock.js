@@ -71,11 +71,15 @@ const Wrapper = styled.article`
 
 const ImageWrapper = styled.div`
   position: relative;
+  min-width: 88px;
+  min-height: 88px;
   width: 88px;
   height: 88px;
   margin-right: 12px;
 
   @media (min-width: 768px) {
+    min-width: 237px;
+    min-height: 168px;
     width: 237px;
     height: 168px;
     margin-right: 24px;
